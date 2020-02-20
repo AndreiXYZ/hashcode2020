@@ -6,6 +6,6 @@ def parse() -> argparse.Namespace:
 
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--example', default=1000, type=int, help='evaluate every x batches')
+    parser.add_argument('--filename', default=None, type=str, help='name of file')
 
     return parser.parse_args()
