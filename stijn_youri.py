@@ -11,7 +11,7 @@ class StijnYouri:
 
     def __init__(self, libraries, books, max_days):
         self.max_days = max_days
-        self.books = books
+        self.books = np.array(books)
         self.libraries = np.array(libraries)
         self.datamanager = DataManager(".")
         self.state = np.array(range(len(self.libraries)))
@@ -21,13 +21,25 @@ class StijnYouri:
         self.score_history = []
         self.accept_worse_order_prob = 0.95
 
-    def initial_ordering(self):
-        # random for now
-        return np.random.shuffle(self.state)
+    def initial_ordering(self, method="greedy"):
+        print("initial ordering")
+        if method=="random":
+            # random for now
+            np.random.shuffle(self.state)
+
+        elif method == "greedy":
+            self.state = np.argsort([-1*lib.total_score for lib in self.libraries])
+
+        elif method == "greedy_div_time":
+            self.state = np.argsort([-1*(lib.total_score/lib.signup_days) for lib in self.libraries])
+
+
+
+
 
     def do_solution(self):
 
-
+        print("starting run")
 
         # initial evaluation
         score = self.simulate_stuff(self.get_cutoff())
@@ -49,7 +61,6 @@ class StijnYouri:
 
             # evaluate new state
             new_score = self.simulate_stuff(self.get_cutoff())
-
 
             # change is accepted if better or sometimes with random probability
             if new_score >= score or (random.random() - self.accept_worse_order_prob) > 0:
