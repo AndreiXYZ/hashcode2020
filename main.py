@@ -12,7 +12,7 @@ from andrei_max_books import solution
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-input_file', type=str, default="./data/c_incunabula.txt")
+    parser.add_argument('-input_file', type=str, default="./data/b_read_on.txt")
     parser.add_argument('--method', type=str, default="stijn_youri")
     args = parser.parse_args()
 
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # optional
 
     if args.method == "stijn_youri":
-        solution = StijnYouri(books, libs, max_days).do_solution()
+        solution = StijnYouri(libs, books, max_days).do_solution()
 
     if args.method == 'andrei_maxbooks':
         libraries_to_signup, library_books = solution(books, libs, max_days)
