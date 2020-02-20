@@ -19,10 +19,10 @@ def save_result(
     output_str = f'{libraries_to_signup}\n'
 
     for library_id in library_ids_order:
-        books_to_scan = len(libraries[library_id]._book_ids)
+        books_to_scan = len(libraries[library_id].book_ids)
         output_str += f'{libraries[library_id].id} {books_to_scan}\n'
 
-        for book_id in libraries[library_id]._book_ids:
+        for book_id in libraries[library_id].book_ids:
             output_str += f'{str(book_id)} '
 
         output_str += '\n'
