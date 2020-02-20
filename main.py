@@ -12,7 +12,7 @@ from entities.library import Library
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-input_file', type=str, default="./data/c_incunabula.txt")
+    parser.add_argument('-input_file', type=str, default="./data/a_example.txt")
     parser.add_argument('--method', type=str, default="stijn_youri")
     args = parser.parse_args()
 
