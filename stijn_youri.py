@@ -19,7 +19,7 @@ class StijnYouri:
         self.initial_ordering()
         self.patience = 100
         self.score_history = []
-        self.accept_worse_order_prob = 0.975
+        self.accept_worse_order_prob = 1
 
     def initial_ordering(self, method="greedy_div_time"):
         print("initial ordering")
@@ -36,11 +36,9 @@ class StijnYouri:
 
 
 
-
     def do_solution(self):
 
         print("starting run")
-
         # initial evaluation
         score = self.simulate_stuff(self.get_cutoff())
 
@@ -119,49 +117,51 @@ class StijnYouri:
 
     def simulate_stuff(self, ranking):
         total_score = 0
-        pool_of_book = {x.id: x._score for x in self.books}
-        depleted_libraries = {x.id: False for x in ranking}
-        scanned_books = {x.id: False for x in self.books}
+        self.ranking = {x.id: x for x in ranking}
+        self.pool_of_book = {x.id: x._score for x in self.books}
+        self.depleted_libraries = {x.id: False for x in ranking}
+        self.scanned_books = {x.id: False for x in self.books}
 
         for day in range(self.max_days):
-            available_libraries = self.get_available_libraries(day, ranking)
-            if len(available_libraries) == 0:
-                pass
-            temp_score, pool_of_book, depleted_libraries, scanned_books = self.calc_stuff(
-                pool_of_book, available_libraries, depleted_libraries, scanned_books)
+            available_library_ids = self.get_available_library_ids(day)
+            if len(available_library_ids) == 0:
+                continue
+
+            temp_score = self.calc_stuff(available_library_ids)
             total_score += temp_score
         return total_score
 
-    def calc_stuff(self, pool_of_book, available_libraries: List[Library], depleted_libraries, scanned_books):
+    def calc_stuff(self, available_library_ids: List[Library]):
         temp_score = 0
-        for lib in available_libraries:
-            if depleted_libraries[lib.id]:
+        for library_id in available_library_ids:
+            if self.depleted_libraries[library_id]:
                 continue
 
-            amount_of_books_per_day = lib.amount_of_books_per_day
+            amount_of_books_per_day = self.ranking[library_id].amount_of_books_per_day
             books_submitted = 0
-            for book_id in lib.book_ids:
-                if scanned_books[book_id]:
+            for book_id in self.ranking[library_id].book_ids:
+                if self.scanned_books[book_id]:
                     continue
 
-                temp_score += pool_of_book[book_id]
+                temp_score += self.pool_of_book[book_id]
                 books_submitted += 1
-                scanned_books[book_id] = True
+                self.scanned_books[book_id] = True
                 if books_submitted == amount_of_books_per_day:
                     break
 
             if books_submitted == 0:
-                depleted_libraries[lib.id] = True
+                self.depleted_libraries[library_id] = True
 
-        return temp_score, pool_of_book, depleted_libraries, scanned_books
+        return temp_score
 
-    def get_available_libraries(self, day, ranking):
+    def get_available_library_ids(self, day):
         total = 0
-        available_libraries = []
-        for library in ranking:
+        available_library_ids = []
+        for library_id, library in self.ranking.items():
             total += library.signup_days
             if day > total:
-                available_libraries.append(library)
+                available_library_ids.append(library_id)
             else:
                 break
-        return available_libraries
+
+        return available_library_ids
