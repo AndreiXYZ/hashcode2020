@@ -1,0 +1,58 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "A example",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-input_file", "data/a_example.txt"
+            ]
+        },
+        {
+            "name": "B example",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-input_file", "data/b_read_on.txt"
+            ]
+        },
+        {
+            "name": "C example",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-input_file", "data/c_incunabula.txt"
+            ]
+        },
+        {
+            "name": "D example",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-input_file", "data/d_tough_choices.txt"
+            ]
+        },
+        {
+            "name": "E example",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-input_file", "data/f_libraries_of_the_world.txt"
+            ]
+        }
+    ]
+}

@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from entities.book import Book
@@ -12,7 +13,8 @@ def save_result(
         libraries: List[Library],
         libraries_to_signup: int,
         library_ids_order: List[int],
-        book_ids_per_library: List[List[int]]):
+        book_ids_per_library: List[List[int]],
+        input_file_name: str):
 
     output_str = f'{libraries_to_signup}\n'
 
@@ -25,4 +27,5 @@ def save_result(
 
         output_str += '\n'
 
-    data_manager.write_to_file('output.txt', output_str)
+    _, filename = os.path.split(input_file_name)
+    data_manager.write_to_file(f'out-{filename}', output_str)
