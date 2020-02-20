@@ -27,6 +27,8 @@ class StijnYouri:
 
     def do_solution(self):
 
+
+
         # initial evaluation
         score = self.simulate_stuff(self.get_cutoff())
 
@@ -48,8 +50,9 @@ class StijnYouri:
             # evaluate new state
             new_score = self.simulate_stuff(self.get_cutoff())
 
+
             # change is accepted if better or sometimes with random probability
-            if new_score >= score or (random.random() + self.accept_worse_order_prob) > 0:
+            if new_score >= score or (random.random() - self.accept_worse_order_prob) > 0:
 
                 # move forward
                 del old_state
@@ -67,7 +70,7 @@ class StijnYouri:
                 print("\n\nexit because ran out of patience")
                 return self.get_cutoff()
 
-    def do_flip(self, method="random_once"):
+    def do_flip(self, method="random_multiple"):
         # flips two random indices, for now
         if method == "random_once":
             two_indices = np.array([random.randint(0, self.length_state - 1) for _ in range(2)])
@@ -76,7 +79,7 @@ class StijnYouri:
             self.state[two_indices] = self.state[np.flip(two_indices)]
         elif method == "random_multiple":
             for x in range(5):
-                self.do_flip(method="random")
+                self.do_flip(method="random_once")
         elif method == "skewed_for_total_score":
 
             pass  # todo
