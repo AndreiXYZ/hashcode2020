@@ -5,7 +5,7 @@ import pickle
 class DataManager:
     """ tasked with file save and writing as well as os-operations """
 
-    def __init__(self, directory):
+    def __init__(self, directory=os.path.join(".", "gitignored_folder")):
 
         # determines relative disk directory for saving/loading
         self.directory = directory
@@ -31,7 +31,7 @@ class DataManager:
         os.makedirs(os.path.join(self.directory, name), exist_ok=True)
 
     def load_python_obj(self, name):
-        """ Loads python object from disk if pickle """
+        """ Loads python object from disk in pickle """
 
         try:
             obj = None
