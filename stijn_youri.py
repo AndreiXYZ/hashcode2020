@@ -121,6 +121,9 @@ class StijnYouri:
         self.pool_of_book = {x.id: x._score for x in self.books}
         self.depleted_libraries = {x.id: False for x in ranking}
         self.scanned_books = {x.id: False for x in self.books}
+        self.lib_books = []
+        for lib in ranking:
+            self.lib_books.append([])
 
         for day in range(self.max_days):
             available_library_ids = self.get_available_library_ids(day)
@@ -143,6 +146,7 @@ class StijnYouri:
                 if self.scanned_books[book_id]:
                     continue
 
+                self.lib_books[library_id].append(book_id)
                 temp_score += self.pool_of_book[book_id]
                 books_submitted += 1
                 self.scanned_books[book_id] = True
