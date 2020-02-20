@@ -19,9 +19,9 @@ class StijnYouri:
         self.initial_ordering()
         self.patience = 100
         self.score_history = []
-        self.accept_worse_order_prob = 0.95
+        self.accept_worse_order_prob = 0.975
 
-    def initial_ordering(self, method="greedy"):
+    def initial_ordering(self, method="greedy_div_time"):
         print("initial ordering")
         if method=="random":
             # random for now
