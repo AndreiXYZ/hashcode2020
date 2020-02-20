@@ -38,47 +38,54 @@ class StijnYouri:
 
     def do_solution(self):
 
-        print("starting run")
-        # initial evaluation
-        score = self.simulate_stuff(self.get_cutoff())
+        try:
 
-        timestep = 0
+            print("starting run")
+            # initial evaluation
+            score = self.simulate_stuff(self.get_cutoff())
 
-        # exit condition
-        while not self.finished():
+            timestep = 0
 
-            timestep += 1
+            # exit condition
+            while not self.finished():
 
-            print(
-                f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
+                timestep += 1
 
-            # save for now
-            old_state = self.datamanager.personal_deepcopy(self.state)
+                print(
+                    f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
 
-            # change state
-            self.do_flip()
+                # save for now
+                old_state = self.datamanager.personal_deepcopy(self.state)
 
-            # evaluate new state
-            new_score = self.simulate_stuff(self.get_cutoff())
+                # change state
+                self.do_flip()
 
-            # change is accepted if better or sometimes with random probability
-            if new_score >= score or (random.random() - self.accept_worse_order_prob) > 0:
+                # evaluate new state
+                new_score = self.simulate_stuff(self.get_cutoff())
 
-                # move forward
-                del old_state
-                self.score_history.append(new_score)
-                score = new_score
+                # change is accepted if better or sometimes with random probability
+                if new_score >= score or (random.random() - self.accept_worse_order_prob) > 0:
 
-                # reset patience
-                self.patience = 100
-            else:
-                # rejected forward
-                self.state = old_state
-                self.patience -= 1
+                    # move forward
+                    del old_state
+                    self.score_history.append(new_score)
+                    score = new_score
 
-            if self.patience == 0:
-                print("\n\nexit because ran out of patience")
-                return self.get_cutoff()
+                    # reset patience
+                    self.patience = 100
+                else:
+                    # rejected forward
+                    self.state = old_state
+                    self.patience -= 1
+
+                if self.patience == 0:
+                    print("\n\nexit because ran out of patience")
+                    return self.get_cutoff()
+
+        except KeyboardInterrupt:
+            print("\n\nKilled, returning current solution")
+            # todo: are books sorted as well?
+            return self.get_cutoff()
 
     def do_flip(self, method="random_multiple"):
         # flips two random indices, for now
