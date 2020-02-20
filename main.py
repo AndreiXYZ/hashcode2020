@@ -12,11 +12,9 @@ from andrei_max_books import solution
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-input_file', type=str, default="./data/b_read_on.txt")
+    parser.add_argument('-input_file', type=str, default="./data/c_incunabula.txt")
     parser.add_argument('--method', type=str, default="stijn_youri")
     args = parser.parse_args()
-
-
 
     num_books, num_libs, max_days, books, libs = read_input_file(args.input_file)
 
