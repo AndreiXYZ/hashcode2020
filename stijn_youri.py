@@ -51,7 +51,8 @@ class StijnYouri:
 
             timestep += 1
 
-            print(f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
+            print(
+                f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
 
             # save for now
             old_state = self.datamanager.personal_deepcopy(self.state)
@@ -84,7 +85,8 @@ class StijnYouri:
     def do_flip(self, method="random_multiple"):
         # flips two random indices, for now
         if method == "random_once":
-            two_indices = np.array([random.randint(0, self.length_state - 1) for _ in range(2)])
+            two_indices = np.array(
+                [random.randint(0, self.length_state - 1) for _ in range(2)])
             while two_indices[0] == two_indices[1]:
                 two_indices[0] = random.randint(0, self.length_state - 1)
             self.state[two_indices] = self.state[np.flip(two_indices)]
@@ -118,28 +120,40 @@ class StijnYouri:
     def simulate_stuff(self, ranking):
         total_score = 0
         pool_of_book = {x.id: x._score for x in self.books}
+        depleted_libraries = {x.id: False for x in ranking}
+        scanned_books = {x.id: False for x in self.books}
+
         for day in range(self.max_days):
             available_libraries = self.get_available_libraries(day, ranking)
             if len(available_libraries) == 0:
                 pass
-            temp_score, pool_of_book = self.calc_stuff(pool_of_book, available_libraries)
+            temp_score, pool_of_book, depleted_libraries, scanned_books = self.calc_stuff(
+                pool_of_book, available_libraries, depleted_libraries, scanned_books)
             total_score += temp_score
         return total_score
 
-    def calc_stuff(self, pool_of_book, available_libraries):
+    def calc_stuff(self, pool_of_book, available_libraries: List[Library], depleted_libraries, scanned_books):
         temp_score = 0
         for lib in available_libraries:
+            if depleted_libraries[lib.id]:
+                continue
+
             amount_of_books_per_day = lib.amount_of_books_per_day
             books_submitted = 0
             for book_id in lib.book_ids:
-                if book_id in pool_of_book.keys():
-                    temp_score += pool_of_book[book_id]
-                    books_submitted += 1
-                    del pool_of_book[book_id]
-                    if books_submitted == amount_of_books_per_day:
-                        break
+                if scanned_books[book_id]:
+                    continue
 
-        return temp_score, pool_of_book
+                temp_score += pool_of_book[book_id]
+                books_submitted += 1
+                scanned_books[book_id] = True
+                if books_submitted == amount_of_books_per_day:
+                    break
+
+            if books_submitted == 0:
+                depleted_libraries[lib.id] = True
+
+        return temp_score, pool_of_book, depleted_libraries, scanned_books
 
     def get_available_libraries(self, day, ranking):
         total = 0
