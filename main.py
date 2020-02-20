@@ -46,7 +46,8 @@ if __name__ == '__main__':
     # optional
 
     if args.method == "stijn_youri":
-        solution = StijnYouri(books, libs, max_days).do_solution()
+        solution = StijnYouri(libs, books, max_days).simulate_stuff()
+        print(solution)
 
 
 
@@ -63,4 +64,3 @@ if __name__ == '__main__':
         [library._book_ids for library in libs],
         args.input_file)
 
-# output
