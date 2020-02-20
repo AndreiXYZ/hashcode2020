@@ -83,13 +83,14 @@ class StijnYouri:
 
                 if self.patience == 0:
                     print("\n\nexit because ran out of patience")
-                    return self.get_cutoff()
+                    cutoff = [x.id for x in self.get_cutoff()]
+                    return cutoff, self.lib_books
 
         except KeyboardInterrupt:
             print("\n\nKilled, returning current solution")
             # todo: are books sorted as well?
-            cutoff = self.get_cutoff()
-            simulation_score = self.simulate_stuff(cutoff)
+            cutoff = [x.id for x in self.get_cutoff()]
+            # simulation_score = self.simulate_stuff(cutoff)
 
             return cutoff, self.lib_books
 
