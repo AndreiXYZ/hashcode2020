@@ -135,7 +135,7 @@ class StijnYouri:
         self.depleted_libraries = {x.id: False for x in ranking}
         self.scanned_books = {x.id: False for x in self.books}
         self.lib_books = []
-        for lib in ranking:
+        for lib in self.libraries:
             self.lib_books.append([])
 
         for day in range(self.max_days):
