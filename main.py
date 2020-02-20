@@ -8,7 +8,7 @@ from entities.book import Book
 import argparse
 from entities.book import Book
 from entities.library import Library
-
+from andrei_max_books import solution
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -26,19 +26,16 @@ if __name__ == '__main__':
     if args.method == "stijn_youri":
         solution = StijnYouri(libs, books, max_days).do_solution()
 
-
-
+    if args.method == 'andrei_maxbooks':
+        libraries_to_signup, library_books = solution(books, libs, max_days)
     # read
 
-
     # calculate
-
-    libraries_to_signup = len(libs)  # TODO Calculate
     save_result(
         libs,
+        len(libraries_to_signup),
         libraries_to_signup,
-        [library.id for library in libs],
-        [library.book_ids for library in libs],
+        library_books,
         args.input_file)
 
 # output
