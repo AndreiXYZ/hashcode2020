@@ -1,6 +1,7 @@
 
 import os
 import pickle
+import json
 
 class DataManager:
     """ tasked with file save and writing as well as os-operations """
@@ -43,4 +44,21 @@ class DataManager:
         except Exception as e:
             print(e)
             print("Failed loading {}, continue anyway".format(name))
+
+    def load_json(self, name: str) -> dict:
+        if not (name.endswith(".json")):
+            name = name + ".json"
+        with open(os.path.join(self.directory, name)) as json_file:
+            data = json.load(json_file)
+            return data
+
+    def save_json(self, name: str, data: dict):
+        if not (name.endswith(".json")):
+            name = name + ".json"
+        with open(os.path.join(self.directory, name), 'w') as outfile:
+            json.dump(data, outfile)
+
+    def write_to_file(self, name, content):
+        with open(os.path.join(self.directory, name), 'w') as outfile:
+            outfile.write(content)
 
