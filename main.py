@@ -22,7 +22,7 @@ if __name__ == '__main__':
     # optional
 
     if args.method == "stijn_youri":
-        solution = StijnYouri(libs, books, max_days).do_solution()
+        libraries_to_signup, library_books = StijnYouri(libs, books, max_days).do_solution()
 
     if args.method == 'andrei_maxbooks':
         libraries_to_signup, library_books = solution(books, libs, max_days)

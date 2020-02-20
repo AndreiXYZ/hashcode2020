@@ -85,7 +85,10 @@ class StijnYouri:
         except KeyboardInterrupt:
             print("\n\nKilled, returning current solution")
             # todo: are books sorted as well?
-            return self.get_cutoff()
+            cutoff = self.get_cutoff()
+            simulation_score = self.simulate_stuff(cutoff)
+
+            return cutoff, self.lib_books
 
     def do_flip(self, method="random_multiple"):
         # flips two random indices, for now
