@@ -21,7 +21,7 @@ class StijnYouri:
         self.score_history = []
         self.accept_worse_order_prob = 1
 
-    def initial_ordering(self, method="greedy_div_time"):
+    def initial_ordering(self, method="greedy_div_time_amount"):
         print("initial ordering")
         if method=="random":
             # random for now
@@ -32,6 +32,9 @@ class StijnYouri:
 
         elif method == "greedy_div_time":
             self.state = np.argsort([-1*(lib.scores_sum/lib.signup_days) for lib in self.libraries])
+
+        elif method == "greedy_div_time_amount":
+            self.state = np.argsort([-1*((lib.scores_sum*lib.amount_of_books_per_day)/lib.signup_days) for lib in self.libraries])
 
 
 
