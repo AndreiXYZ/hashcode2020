@@ -20,6 +20,7 @@ if __name__ == '__main__':
 
 
     with open(args.input_file) as f:
+
         # Read line 1
         num_books, num_libs, max_days = map(
             lambda x: int(x), f.readline().strip().split(' '))
@@ -45,7 +46,7 @@ if __name__ == '__main__':
     # optional
 
     if args.method == "stijn_youri":
-        solution = StijnYouri(books, libs).do_solution()
+        solution = StijnYouri(books, libs, max_days).do_solution()
 
 
 
