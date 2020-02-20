@@ -1,11 +1,12 @@
+import os
+
 from utils.config_utils import *
 from utils.input_utils import *
 from utils.output_utils import *
-from utils.file_utils import *
+from entities.book import Book
 import argparse
 from entities.book import Book
 from entities.library import Library
-
 
 
 if __name__ == '__main__':
@@ -30,14 +31,21 @@ if __name__ == '__main__':
             libs.append(Library(book_ids=lib_books, signup_days=signup_days, 
                                 amount_of_books_per_day=amount_of_books_per_day, id=idx))
     
+# read
 
     for book in books:
         print(book)
     
     for library in libs:
         print(library)
-    # optional
-    # read
-    # calculate
+libraries_to_signup = 2  # TODO Calculate
+save_result(
+    libraries,
+    libraries_to_signup,
+    [0,1],
+    [
+        [0,1,2,3,4],
+        [3,2,5,0]
+    ])
 
-    # output
+# output
