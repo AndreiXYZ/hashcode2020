@@ -51,6 +51,16 @@
             "program": "main.py",
             "console": "integratedTerminal",
             "args": [
+                "-input_file", "data/e_so_many_books.txt"
+            ]
+        },
+        {
+            "name": "F example",
+            "type": "python",
+            "request": "launch",
+            "program": "main.py",
+            "console": "integratedTerminal",
+            "args": [
                 "-input_file", "data/f_libraries_of_the_world.txt"
             ]
         }
