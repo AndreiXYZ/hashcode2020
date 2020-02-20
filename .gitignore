@@ -118,3 +118,4 @@ gitignored_folder
 /gitignored_folder/
 /gitignored_folder/results/
 
+/.vscode/launch.json
