@@ -28,10 +28,10 @@ class StijnYouri:
             np.random.shuffle(self.state)
 
         elif method == "greedy":
-            self.state = np.argsort([-1*lib.total_score for lib in self.libraries])
+            self.state = np.argsort([-1*lib.scores_sum for lib in self.libraries])
 
         elif method == "greedy_div_time":
-            self.state = np.argsort([-1*(lib.total_score/lib.signup_days) for lib in self.libraries])
+            self.state = np.argsort([-1*(lib.scores_sum/lib.signup_days) for lib in self.libraries])
 
 
 
