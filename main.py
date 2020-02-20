@@ -12,6 +12,7 @@ if __name__ == '__main__':
 
     # optional
     args = parse()
+    print(f"processing file {args.filename}")
 
     # read
 
