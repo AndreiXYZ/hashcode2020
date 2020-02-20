@@ -13,8 +13,7 @@ class Library:
         self.book_ids: List[int] = book_ids
         self.signup_days = signup_days
         self.amount_of_books_per_day = amount_of_books_per_day
-
-
+        self.scores_sum = 0
 
     def __repr__(self):
         return 'ID={} Book Ids={} Signup days={} Num. books per day={}'.format(
