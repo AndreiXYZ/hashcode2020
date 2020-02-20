@@ -1,5 +1,6 @@
-
 import random
+from typing import List
+
 import numpy as np
 
 from entities.library import Library
@@ -20,9 +21,6 @@ class StijnYouri:
         self.score_history = []
         self.accept_worse_order_prob = 0.95
 
-    def get_score(self, libraries):
-        return random.random() # todo: youri
-
     def initial_ordering(self):
         # random for now
         return np.random.shuffle(self.state)
@@ -30,7 +28,7 @@ class StijnYouri:
     def do_solution(self):
 
         # initial evaluation
-        score = self.get_score(self.get_cutoff())
+        score = self.simulate_stuff(self.get_cutoff())
 
         timestep = 0
 
@@ -48,7 +46,7 @@ class StijnYouri:
             self.do_flip()
 
             # evaluate new state
-            new_score = self.get_score(self.get_cutoff())
+            new_score = self.simulate_stuff(self.get_cutoff())
 
             # change is accepted if better or sometimes with random probability
             if new_score >= score or (random.random() + self.accept_worse_order_prob) > 0:
@@ -72,11 +70,11 @@ class StijnYouri:
     def do_flip(self, method="random_once"):
         # flips two random indices, for now
         if method == "random_once":
-            two_indices = np.array([random.randint(0, self.length_state-1) for _ in range(2)])
+            two_indices = np.array([random.randint(0, self.length_state - 1) for _ in range(2)])
             while two_indices[0] == two_indices[1]:
-                two_indices[0] = random.randint(0, self.length_state-1)
+                two_indices[0] = random.randint(0, self.length_state - 1)
             self.state[two_indices] = self.state[np.flip(two_indices)]
-        elif method=="random_multiple":
+        elif method == "random_multiple":
             for x in range(5):
                 self.do_flip(method="random")
         elif method == "skewed_for_total_score":
@@ -112,19 +110,18 @@ class StijnYouri:
             if len(available_libraries) == 0:
                 pass
             temp_score, pool_of_book = self.calc_stuff(pool_of_book, available_libraries)
-            total_score+=temp_score
+            total_score += temp_score
         return total_score
-
 
     def calc_stuff(self, pool_of_book, available_libraries):
         temp_score = 0
         for lib in available_libraries:
-            amount_of_books_per_day = lib._amount_of_books_per_day
+            amount_of_books_per_day = lib.amount_of_books_per_day
             books_submitted = 0
-            for book_id in lib._book_ids:
+            for book_id in lib.book_ids:
                 if book_id in pool_of_book.keys():
-                    temp_score+=pool_of_book[book_id]
-                    books_submitted+=1
+                    temp_score += pool_of_book[book_id]
+                    books_submitted += 1
                     del pool_of_book[book_id]
                     if books_submitted == amount_of_books_per_day:
                         break
@@ -135,11 +132,9 @@ class StijnYouri:
         total = 0
         available_libraries = []
         for library in ranking:
-            total += library._signup_days
+            total += library.signup_days
             if day > total:
                 available_libraries.append(library)
             else:
                 break
         return available_libraries
-
-
