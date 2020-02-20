@@ -103,7 +103,6 @@ class StijnYouri:
 
     def simulate_stuff(self, ranking):
         total_score = 0
-        ranking = self.libraries
         pool_of_book = {x.id: x._score for x in self.books}
         for day in range(self.max_days):
             available_libraries = self.get_available_libraries(day, ranking)
