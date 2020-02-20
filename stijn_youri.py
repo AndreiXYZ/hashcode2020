@@ -40,7 +40,7 @@ class StijnYouri:
 
             timestep += 1
 
-            # print(f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
+            print(f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
 
             # save for now
             old_state = self.datamanager.personal_deepcopy(self.state)
