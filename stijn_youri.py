@@ -107,26 +107,37 @@ class StijnYouri:
     def simulate_stuff(self, ranking):
         total_score = 0
         pool_of_book = {x.id: x._score for x in self.books}
+        depleted_libraries = {x.id: False for x in ranking}
+        scanned_books = {x.id: False for x in self.books}
+
         for day in range(self.max_days):
             available_libraries = self.get_available_libraries(day, ranking)
             if len(available_libraries) == 0:
                 pass
-            temp_score, pool_of_book = self.calc_stuff(pool_of_book, available_libraries)
+            temp_score, pool_of_book = self.calc_stuff(pool_of_book, available_libraries, depleted_libraries, scanned_books)
             total_score += temp_score
         return total_score
 
-    def calc_stuff(self, pool_of_book, available_libraries):
+    def calc_stuff(self, pool_of_book, available_libraries: List[Library], depleted_libraries, scanned_books):
         temp_score = 0
         for lib in available_libraries:
+            if depleted_libraries[lib.id]:
+                continue
+
             amount_of_books_per_day = lib.amount_of_books_per_day
             books_submitted = 0
             for book_id in lib.book_ids:
-                if book_id in pool_of_book.keys():
-                    temp_score += pool_of_book[book_id]
-                    books_submitted += 1
-                    del pool_of_book[book_id]
-                    if books_submitted == amount_of_books_per_day:
-                        break
+                if scanned_books[book_id]:
+                    continue
+
+                temp_score += pool_of_book[book_id]
+                books_submitted += 1
+                scanned_books[book_id] = True
+                if books_submitted == amount_of_books_per_day:
+                    break
+
+            if books_submitted == 0:
+                depleted_libraries[lib.id] = True
 
         return temp_score, pool_of_book
 
