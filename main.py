@@ -29,13 +29,8 @@ if __name__ == '__main__':
             lib_books = list(map(lambda x: int(x), f.readline().strip().split(' ')))
             libs.append(Library(book_ids=lib_books, signup_days=signup_days, 
                                 amount_of_books_per_day=amount_of_books_per_day, id=idx))
-    
 
-    for book in books:
-        print(book)
     
-    for library in libs:
-        print(library)
     # optional
     # read
     # calculate
