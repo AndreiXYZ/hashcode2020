@@ -62,3 +62,8 @@ class DataManager:
         with open(os.path.join(self.directory, name), 'w') as outfile:
             outfile.write(content)
 
+    def personal_deepcopy(self, obj):
+        """ Deep copies any object faster than builtin """
+
+        return pickle.loads(pickle.dumps(obj, protocol=-1))
+
