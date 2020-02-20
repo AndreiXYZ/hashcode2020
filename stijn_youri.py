@@ -39,7 +39,8 @@ class StijnYouri:
 
             timestep += 1
 
-            print(f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
+            print(
+                f"\rtime {timestep}, score {score}, patience {self.patience}", end='')
 
             # save for now
             old_state = self.datamanager.personal_deepcopy(self.state)
@@ -49,7 +50,6 @@ class StijnYouri:
 
             # evaluate new state
             new_score = self.simulate_stuff(self.get_cutoff())
-
 
             # change is accepted if better or sometimes with random probability
             if new_score >= score or (random.random() - self.accept_worse_order_prob) > 0:
@@ -73,7 +73,8 @@ class StijnYouri:
     def do_flip(self, method="random_multiple"):
         # flips two random indices, for now
         if method == "random_once":
-            two_indices = np.array([random.randint(0, self.length_state - 1) for _ in range(2)])
+            two_indices = np.array(
+                [random.randint(0, self.length_state - 1) for _ in range(2)])
             while two_indices[0] == two_indices[1]:
                 two_indices[0] = random.randint(0, self.length_state - 1)
             self.state[two_indices] = self.state[np.flip(two_indices)]
@@ -114,7 +115,8 @@ class StijnYouri:
             available_libraries = self.get_available_libraries(day, ranking)
             if len(available_libraries) == 0:
                 pass
-            temp_score, pool_of_book = self.calc_stuff(pool_of_book, available_libraries, depleted_libraries, scanned_books)
+            temp_score, pool_of_book, depleted_libraries, scanned_books = self.calc_stuff(
+                pool_of_book, available_libraries, depleted_libraries, scanned_books)
             total_score += temp_score
         return total_score
 
@@ -139,7 +141,7 @@ class StijnYouri:
             if books_submitted == 0:
                 depleted_libraries[lib.id] = True
 
-        return temp_score, pool_of_book
+        return temp_score, pool_of_book, depleted_libraries, scanned_books
 
     def get_available_libraries(self, day, ranking):
         total = 0
